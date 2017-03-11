@@ -73,7 +73,7 @@ public class EngineTest {
     };
 
     @Test
-    public void testEngine() {
+    public void testPickStrategy() {
 
         // Engine with two strategies: "Always Scissors" and "Always Paper"
         MockEngine engine = Mockito.spy(
