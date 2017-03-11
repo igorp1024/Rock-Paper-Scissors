@@ -1,7 +1,5 @@
 package com.wowapp;
 
-import com.wowapp.strategy.ScoreKeeper;
-
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,7 +1,5 @@
 package com.wowapp;
 
-import com.wowapp.strategy.ScoreKeeper;
-
 import java.util.Scanner;
 
 /**

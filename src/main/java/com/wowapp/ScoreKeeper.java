@@ -1,6 +1,4 @@
-package com.wowapp.strategy;
-
-import com.wowapp.Outcome;
+package com.wowapp;
 
 /**
  * Score keeping data object.
