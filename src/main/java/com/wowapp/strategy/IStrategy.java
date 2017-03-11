@@ -2,6 +2,7 @@ package com.wowapp.strategy;
 
 import com.wowapp.Item;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**

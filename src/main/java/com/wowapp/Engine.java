@@ -18,15 +18,26 @@ import java.util.Map;
  */
 public class Engine {
 
-    private static final int MAXIMUM_ALLOWED_LOSES = 4;
-    private static final int ROUNDS_PER_STRATEGY = 6;
+    protected static final int MAXIMUM_ALLOWED_LOSES = 4;
+    protected static final int ROUNDS_PER_STRATEGY = 6;
 
-    private IStrategy[] strategies = new IStrategy[]{new RotateStrategy(), new WeightedStrategy()};
-    private Map<IStrategy, Integer> successStats = new HashMap<>(strategies.length);
+    private IStrategy[] strategies;
 
-    private int round = 0, lastLosesInARow = 0;
-    private IStrategy currentStrategy;
+    private Map<IStrategy, Integer> successStats;
+
+    protected int round = 0, lastLosesInARow = 0;
+    protected IStrategy currentStrategy;
     private List<Item> playedItems = new ArrayList<>();
+
+    public Engine() {
+        this.strategies = new IStrategy[]{new RotateStrategy(), new WeightedStrategy()};
+        this.successStats = new HashMap<>(strategies.length);
+    }
+
+    public Engine(IStrategy[] strategies) {
+        this.strategies = strategies;
+        this.successStats = new HashMap<>(strategies.length);
+    }
 
     public Item makeChoice(Item lastPlayersChoice, Outcome lastOutcome) {
 
@@ -49,60 +60,82 @@ public class Engine {
 
         if (statsAreBeingGathered) {
 
-            // When stats are still gathered, strategy is being used
-            // for ROUNDS_PER_STRATEGY times in a row
-            IStrategy strategy = strategies[round / ROUNDS_PER_STRATEGY];
-
-            // On WIN or DRAW increase success count
-            if (!Outcome.LOSS.equals(lastOutcome)) {
-                if (successStats.containsKey(strategy)) {
-                    // Increase existing
-                    Integer previousWins = successStats.get(strategy);
-                    successStats.put(strategy, previousWins + 1);
-                } else {
-                    // Or initialize with 1 value
-                    successStats.put(strategy, 1);
-                }
-            }
-
-            return strategy;
+            return pickAStrategyToTest(lastOutcome);
 
         } else {
 
             // No need to gather success stats anymore
             if (statsAreJustGathered) {
-                // Count total wins
-                float totalWins = 0.0f;
-                for (Integer nextWinsCount : successStats.values()) {
-                    totalWins += nextWinsCount;
-                }
-
-                // Find strategy with maximum weight
-                float maxWeight = -1f;
-                currentStrategy = null;
-                for (Map.Entry<IStrategy, Integer> nextStats : successStats.entrySet()) {
-                    Integer nextWinsCount = nextStats.getValue();
-                    if (nextWinsCount / totalWins > maxWeight) {
-                        currentStrategy = nextStats.getKey();
-                    }
-                }
-
+                pickANewBestStrategy();
             } else {
-                // We are deep in gaming process with a perspective strategy. Gathering loses stats.
-                if (Outcome.LOSS.equals(lastOutcome)) {
-                    if (lastLosesInARow++ == MAXIMUM_ALLOWED_LOSES) {
-                        // Too much loses with current strategy, will pick a new one starting
-                        // the next round, but this round still using old one
-                        round = 0;
-                        successStats.clear();
-                    }
-                } else {
-                    lastLosesInARow = 0;
-                }
+                stickToTheChosenStrategy(lastOutcome);
             }
 
             // Return strategy which was either just picked up or being used as perspective one
             return currentStrategy;
         }
+    }
+
+    protected IStrategy pickAStrategyToTest(Outcome lastOutcome) {
+
+        // When stats are still gathered, strategy is being used
+        // for ROUNDS_PER_STRATEGY times in a row
+        IStrategy strategy = strategies[round / ROUNDS_PER_STRATEGY];
+
+        // On WIN or DRAW increase success count
+        if (!Outcome.LOSS.equals(lastOutcome)) {
+            if (successStats.containsKey(strategy)) {
+                // Increase existing
+                Integer previousWins = successStats.get(strategy);
+                successStats.put(strategy, previousWins + 1);
+            } else {
+                // Or initialize with 1 value
+                successStats.put(strategy, 1);
+            }
+        }
+
+        return strategy;
+    }
+
+    protected void stickToTheChosenStrategy(Outcome lastOutcome) {
+        // We are deep in gaming process with a perspective strategy. Gathering loses stats.
+        if (Outcome.LOSS.equals(lastOutcome)) {
+            if (++lastLosesInARow == MAXIMUM_ALLOWED_LOSES) {
+                // Too much loses with current strategy, will pick a new one starting
+                // the next round, but this round still using old one. To do this round value should
+                // be zero. But since it is always incremented post factum, it should be -1 in order
+                // to be zero next time
+                round = -1;
+                successStats.clear();
+            }
+        } else {
+            lastLosesInARow = 0;
+        }
+    }
+
+    protected void pickANewBestStrategy() {
+
+        // Count total wins
+        float totalWins = 0.0f;
+        for (Integer nextWinsCount : successStats.values()) {
+            totalWins += nextWinsCount;
+        }
+
+        // Find strategy with maximum weight
+        float maxWeight = -1f;
+        currentStrategy = null;
+        for (Map.Entry<IStrategy, Integer> nextStats : successStats.entrySet()) {
+            Integer nextWinsCount = nextStats.getValue();
+            float currentWeight = nextWinsCount / totalWins;
+            if (currentWeight > maxWeight) {
+                maxWeight = currentWeight;
+                currentStrategy = nextStats.getKey();
+            }
+        }
+    }
+
+    public void setStrategies(IStrategy[] strategies) {
+        this.strategies = strategies;
+        this.successStats = new HashMap<>(strategies.length);
     }
 }

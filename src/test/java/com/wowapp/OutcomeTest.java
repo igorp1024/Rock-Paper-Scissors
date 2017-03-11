@@ -1,7 +1,9 @@
 package com.wowapp;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * @author ip
@@ -10,40 +12,40 @@ public class OutcomeTest {
 
     @Test
     public void testOutcomes() {
-        Assert.assertEquals(Outcome.WIN, Outcome.check(Item.ROCK, Item.SCISSORS));
-        Assert.assertNotEquals(Outcome.LOSS, Outcome.check(Item.ROCK, Item.SCISSORS));
-        Assert.assertNotEquals(Outcome.DRAW, Outcome.check(Item.ROCK, Item.SCISSORS));
+        assertEquals(Outcome.WIN, Outcome.check(Item.ROCK, Item.SCISSORS));
+        assertNotEquals(Outcome.LOSS, Outcome.check(Item.ROCK, Item.SCISSORS));
+        assertNotEquals(Outcome.DRAW, Outcome.check(Item.ROCK, Item.SCISSORS));
 
-        Assert.assertEquals(Outcome.WIN, Outcome.check(Item.SCISSORS, Item.PAPER));
-        Assert.assertNotEquals(Outcome.LOSS, Outcome.check(Item.SCISSORS, Item.PAPER));
-        Assert.assertNotEquals(Outcome.DRAW, Outcome.check(Item.SCISSORS, Item.PAPER));
+        assertEquals(Outcome.WIN, Outcome.check(Item.SCISSORS, Item.PAPER));
+        assertNotEquals(Outcome.LOSS, Outcome.check(Item.SCISSORS, Item.PAPER));
+        assertNotEquals(Outcome.DRAW, Outcome.check(Item.SCISSORS, Item.PAPER));
 
-        Assert.assertEquals(Outcome.WIN, Outcome.check(Item.PAPER, Item.ROCK));
-        Assert.assertNotEquals(Outcome.LOSS, Outcome.check(Item.PAPER, Item.ROCK));
-        Assert.assertNotEquals(Outcome.DRAW, Outcome.check(Item.PAPER, Item.ROCK));
+        assertEquals(Outcome.WIN, Outcome.check(Item.PAPER, Item.ROCK));
+        assertNotEquals(Outcome.LOSS, Outcome.check(Item.PAPER, Item.ROCK));
+        assertNotEquals(Outcome.DRAW, Outcome.check(Item.PAPER, Item.ROCK));
 
-        Assert.assertEquals(Outcome.DRAW, Outcome.check(Item.ROCK, Item.ROCK));
-        Assert.assertNotEquals(Outcome.WIN, Outcome.check(Item.ROCK, Item.ROCK));
-        Assert.assertNotEquals(Outcome.LOSS, Outcome.check(Item.ROCK, Item.ROCK));
+        assertEquals(Outcome.DRAW, Outcome.check(Item.ROCK, Item.ROCK));
+        assertNotEquals(Outcome.WIN, Outcome.check(Item.ROCK, Item.ROCK));
+        assertNotEquals(Outcome.LOSS, Outcome.check(Item.ROCK, Item.ROCK));
 
-        Assert.assertEquals(Outcome.DRAW, Outcome.check(Item.SCISSORS, Item.SCISSORS));
-        Assert.assertNotEquals(Outcome.WIN, Outcome.check(Item.SCISSORS, Item.SCISSORS));
-        Assert.assertNotEquals(Outcome.LOSS, Outcome.check(Item.SCISSORS, Item.SCISSORS));
+        assertEquals(Outcome.DRAW, Outcome.check(Item.SCISSORS, Item.SCISSORS));
+        assertNotEquals(Outcome.WIN, Outcome.check(Item.SCISSORS, Item.SCISSORS));
+        assertNotEquals(Outcome.LOSS, Outcome.check(Item.SCISSORS, Item.SCISSORS));
 
-        Assert.assertEquals(Outcome.DRAW, Outcome.check(Item.PAPER, Item.PAPER));
-        Assert.assertNotEquals(Outcome.WIN, Outcome.check(Item.PAPER, Item.PAPER));
-        Assert.assertNotEquals(Outcome.LOSS, Outcome.check(Item.PAPER, Item.PAPER));
+        assertEquals(Outcome.DRAW, Outcome.check(Item.PAPER, Item.PAPER));
+        assertNotEquals(Outcome.WIN, Outcome.check(Item.PAPER, Item.PAPER));
+        assertNotEquals(Outcome.LOSS, Outcome.check(Item.PAPER, Item.PAPER));
 
-        Assert.assertEquals(Outcome.LOSS, Outcome.check(Item.ROCK, Item.PAPER));
-        Assert.assertNotEquals(Outcome.WIN, Outcome.check(Item.ROCK, Item.PAPER));
-        Assert.assertNotEquals(Outcome.DRAW, Outcome.check(Item.ROCK, Item.PAPER));
+        assertEquals(Outcome.LOSS, Outcome.check(Item.ROCK, Item.PAPER));
+        assertNotEquals(Outcome.WIN, Outcome.check(Item.ROCK, Item.PAPER));
+        assertNotEquals(Outcome.DRAW, Outcome.check(Item.ROCK, Item.PAPER));
 
-        Assert.assertEquals(Outcome.LOSS, Outcome.check(Item.SCISSORS, Item.ROCK));
-        Assert.assertNotEquals(Outcome.WIN, Outcome.check(Item.SCISSORS, Item.ROCK));
-        Assert.assertNotEquals(Outcome.DRAW, Outcome.check(Item.SCISSORS, Item.ROCK));
+        assertEquals(Outcome.LOSS, Outcome.check(Item.SCISSORS, Item.ROCK));
+        assertNotEquals(Outcome.WIN, Outcome.check(Item.SCISSORS, Item.ROCK));
+        assertNotEquals(Outcome.DRAW, Outcome.check(Item.SCISSORS, Item.ROCK));
 
-        Assert.assertEquals(Outcome.LOSS, Outcome.check(Item.PAPER, Item.SCISSORS));
-        Assert.assertNotEquals(Outcome.WIN, Outcome.check(Item.PAPER, Item.SCISSORS));
-        Assert.assertNotEquals(Outcome.DRAW, Outcome.check(Item.PAPER, Item.SCISSORS));
+        assertEquals(Outcome.LOSS, Outcome.check(Item.PAPER, Item.SCISSORS));
+        assertNotEquals(Outcome.WIN, Outcome.check(Item.PAPER, Item.SCISSORS));
+        assertNotEquals(Outcome.DRAW, Outcome.check(Item.PAPER, Item.SCISSORS));
     }
 }
