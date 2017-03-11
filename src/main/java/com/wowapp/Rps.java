@@ -7,35 +7,44 @@ import java.util.Scanner;
  */
 public class Rps {
 
+    private Engine engine = new Engine();
+
     private void go() {
 
         Scanner sc = new Scanner(System.in);
 
+        Item lastPlayersChoice = null;
+        Outcome lastOutcome = null;
+
         printLegend();
+
         while (true) {
 
             // Read the player's input
-            String nl = sc.nextLine();
-            if ("".equals(nl)) {
+            String playersInput = sc.nextLine();
+            if ("".equals(playersInput)) {
                 System.out.println("Exiting ...");
                 return;
             }
 
             // Check the input
-            Item playersChoice = Item.findValue(nl);
+            Item playersChoice = Item.findValue(playersInput);
             if (playersChoice == null) {
+
                 System.out.print("Bad input. ");
                 printLegend();
+
             } else {
+
                 // Play the item
-                Item computerChoice = chooseTheItemToPlay();
-                printResults(computerChoice, playersChoice);
+                Item computersChoice = engine.makeChoice(lastPlayersChoice, lastOutcome);
+
+                lastPlayersChoice = playersChoice;
+                lastOutcome = Outcome.check(computersChoice, playersChoice);
+
+                System.out.println(formatMessage(lastOutcome, computersChoice, playersChoice));
             }
         }
-    }
-
-    private Item chooseTheItemToPlay() {
-        return Item.ROCK;
     }
 
     private void printLegend() {
@@ -43,22 +52,16 @@ public class Rps {
                            + " Press Enter to exit.");
     }
 
-    private void printResults(Item computersChoice, Item playersChoice) {
-
-        if (computersChoice.drawFor(playersChoice)) {
-            System.out.println(
-                String.format(
-                    "My %s vs your %s. Draw.", computersChoice, playersChoice
-                )
-            );
-        } else if (computersChoice.beats(playersChoice)) {
-            System.out.println(
-                String.format("My %s beats your %s. ", computersChoice, playersChoice)
-            );
-        } else {
-            System.out.println(
-                String.format("Your %s beats mine %s. ", playersChoice, computersChoice)
-            );
+    private String formatMessage(Outcome outcome, Item computersChoice, Item playersChoice) {
+        switch (outcome) {
+            case DRAW:
+                return String.format("My %s vs your %s. Draw.", computersChoice, playersChoice);
+            case WIN:
+                return String.format("My %s beats your %s. ", computersChoice, playersChoice);
+            case LOSS:
+                return String.format("Your %s beats mine %s. ", playersChoice, computersChoice);
+            default:
+                throw new IllegalStateException("Abnormal round outcome");
         }
     }
 

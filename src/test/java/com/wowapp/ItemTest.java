@@ -3,6 +3,9 @@ package com.wowapp;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author ip
  */
@@ -39,5 +42,18 @@ public class ItemTest {
         Assert.assertFalse(Item.SCISSORS.drawFor(Item.ROCK));
         Assert.assertFalse(Item.SCISSORS.drawFor(Item.PAPER));
         Assert.assertTrue(Item.SCISSORS.drawFor(Item.SCISSORS));
+    }
+
+    @Test
+    public void testRandomItems() {
+        int maxItemsToGenerate = 1000;
+        Set<Item> randomItems = new HashSet<>(maxItemsToGenerate);
+        for (int i = 0; i < maxItemsToGenerate; i++) {
+            Item randomItem = Item.getRandom();
+            Assert.assertNotNull(randomItem);
+            randomItems.add(randomItem);
+        }
+        // We should get all values on such a big amount of invocations of Item.getRandom()
+        Assert.assertTrue(randomItems.size() == Item.values().length);
     }
 }
