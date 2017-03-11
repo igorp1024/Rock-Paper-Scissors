@@ -1,5 +1,7 @@
 package com.wowapp;
 
+import com.wowapp.strategy.ScoreKeeper;
+
 import java.util.Scanner;
 
 /**
@@ -7,11 +9,12 @@ import java.util.Scanner;
  */
 public class Rps {
 
-    private Engine engine = new Engine();
-
     private void go() {
 
         Scanner sc = new Scanner(System.in);
+
+        Engine engine = new Engine();
+        ScoreKeeper scoreKeeper = new ScoreKeeper();
 
         Item lastPlayersChoice = null;
         Outcome lastOutcome = null;
@@ -31,7 +34,7 @@ public class Rps {
             Item playersChoice = Item.findValue(playersInput);
             if (playersChoice == null) {
 
-                System.out.print("Bad input. ");
+                System.out.println("\nBad input.");
                 printLegend();
 
             } else {
@@ -39,30 +42,46 @@ public class Rps {
                 // Play the item
                 Item computersChoice = engine.makeChoice(lastPlayersChoice, lastOutcome);
 
+                // Keep the player's choice and round outcome for further analysis
                 lastPlayersChoice = playersChoice;
                 lastOutcome = Outcome.check(computersChoice, playersChoice);
 
-                System.out.println(formatMessage(lastOutcome, computersChoice, playersChoice));
+                // Keep totals
+                scoreKeeper.trackOutcome(lastOutcome);
+
+                // Print totals and outcome
+                printOutcome(scoreKeeper, computersChoice, playersChoice);
             }
         }
     }
 
     private void printLegend() {
-        System.out.println("Enter 'R' to play Rock, 'P' to play Paper, 'S' to play Scissors."
-                           + " Press Enter to exit.");
+        System.out.println("Enter 'R' to play Rock, 'P' to play Paper, 'S' to play Scissors, "
+                           + " (press Enter to exit).");
+        System.out.println("Scores legend: [COMPUTER_WINS:PLAYER_WINS(DRAWS)].");
     }
 
-    private String formatMessage(Outcome outcome, Item computersChoice, Item playersChoice) {
-        switch (outcome) {
+    private void printOutcome(ScoreKeeper scoreKeeper, Item computersChoice, Item playersChoice) {
+
+        String scores =
+            String.format("%d:%d(%d)",
+                          scoreKeeper.getWins(), scoreKeeper.getLosses(), scoreKeeper.getDraws());
+
+        String message;
+        switch (scoreKeeper.getLastOutcome()) {
             case DRAW:
-                return String.format("My %s vs your %s. Draw.", computersChoice, playersChoice);
+                message = String.format("Draw. %s vs %s.", computersChoice, playersChoice);
+                break;
             case WIN:
-                return String.format("My %s beats your %s. ", computersChoice, playersChoice);
+                message = String.format("My %s beats your %s.", computersChoice, playersChoice);
+                break;
             case LOSS:
-                return String.format("Your %s beats mine %s. ", playersChoice, computersChoice);
+                message = String.format("Your %s beats mine %s.", playersChoice, computersChoice);
+                break;
             default:
                 throw new IllegalStateException("Abnormal round outcome");
         }
+        System.out.println(String.format("[%s] %s", scores, message));
     }
 
     public static void main(String[] args) {
