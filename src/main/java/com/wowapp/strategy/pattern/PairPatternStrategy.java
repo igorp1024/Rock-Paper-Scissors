@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 /**
  * Player's pattern detection based strategy. Tries to find matching pattern in past player's and
- * computer's moves and play respectively in return.
+ * computer's moves and play respectively in return (unlike {@link PlainPatternStrategy} which seeks
+ * for patterns in player's moves only).
  *
  * @author ip
  */
@@ -73,24 +74,22 @@ public class PairPatternStrategy extends AbstractPatternStrategy {
         return dna;
     }
 
-    protected Item guessUpcomingPlayersItem(StringBuilder history,
-                                            int chainLength,
-                                            int firstIndexOf) {
-
-        // Guess the next PLAYER_ITEM<=>COMPUTER_ITEM pair
-        Pair nextGuessedPair = pairsByCode.get(history.charAt(firstIndexOf + chainLength));
+    protected Item convertHistoryCharToItem(char historyChar) {
 
         // Get corresponding player's move
-        return nextGuessedPair.getPlayersItem();
+        return pairsByCode.get(historyChar).getPlayersMove();
     }
 
+    /**
+     * Container class for player<=>computer items played per round.
+     */
     /*package*/ static class Pair {
 
-        private Item playersItem;
+        private Item playersMove;
         private Item computersResponse;
 
-        public Pair(Item playersItem, Item computersResponse) {
-            this.playersItem = playersItem;
+        protected Pair(Item playersMove, Item computersResponse) {
+            this.playersMove = playersMove;
             this.computersResponse = computersResponse;
         }
 
@@ -105,7 +104,7 @@ public class PairPatternStrategy extends AbstractPatternStrategy {
 
             Pair pair = (Pair) o;
 
-            if (playersItem != pair.playersItem) {
+            if (playersMove != pair.playersMove) {
                 return false;
             }
             return computersResponse == pair.computersResponse;
@@ -113,13 +112,13 @@ public class PairPatternStrategy extends AbstractPatternStrategy {
 
         @Override
         public int hashCode() {
-            int result = playersItem != null ? playersItem.hashCode() : 0;
+            int result = playersMove != null ? playersMove.hashCode() : 0;
             result = 31 * result + (computersResponse != null ? computersResponse.hashCode() : 0);
             return result;
         }
 
-        public Item getPlayersItem() {
-            return playersItem;
+        private Item getPlayersMove() {
+            return playersMove;
         }
     }
 }

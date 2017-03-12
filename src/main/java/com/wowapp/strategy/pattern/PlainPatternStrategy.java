@@ -7,7 +7,8 @@ import java.util.List;
 
 /**
  * Player's pattern detection based strategy. Tries to find matching pattern in past player's only
- * moves and play respectively in return.
+ * moves and play respectively in return (unlike {@link PairPatternStrategy} which seeks for
+ * repeatable patterns formed by player+computer moves pair).
  *
  * @author ip
  */
@@ -26,13 +27,9 @@ public class PlainPatternStrategy extends AbstractPatternStrategy {
     }
 
     @Override
-    protected Item guessUpcomingPlayersItem(StringBuilder history,
-                                            int chainLength,
-                                            int firstIndexOf) {
-        // Guess the next player's item
-        char playersItemAsChar = history.charAt(firstIndexOf + chainLength);
-        String playersItemAsString = Character.toString(playersItemAsChar);
+    protected Item convertHistoryCharToItem(char historyChar) {
 
-        return Item.findValue(playersItemAsString);
+        // Guess the next player's item
+        return Item.findValue(Character.toString(historyChar));
     }
 }

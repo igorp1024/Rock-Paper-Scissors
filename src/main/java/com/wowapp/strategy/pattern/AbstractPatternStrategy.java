@@ -8,13 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Abstract pattern finding strategy which seeks for patterns in player's moves and tries to predict
+ * the next move.
+ *
  * @author ip
  */
 public abstract class AbstractPatternStrategy implements IStrategy {
 
     private static final int
-        MIN_CHAIN_LENGTH = 3,
-        MAX_CHAIN_LENGTH = 10;
+        MIN_CHAIN_LENGTH = 3, // Minimal pattern length
+        MAX_CHAIN_LENGTH = 10; // Maximal patterns length
 
     protected static final int TOTAL_ITEMS = Item.values().length;
 
@@ -56,22 +59,37 @@ public abstract class AbstractPatternStrategy implements IStrategy {
 
             if (thereIsAMatch && thisIsNotTheSamePattern) {
 
-                Item guessedPlayersItem =
-                    guessUpcomingPlayersItem(history, chainLength, firstIndexOf);
+                // Find a char from history which is supposed to appear in this repeated pattern
+                char historyChar = history.charAt(firstIndexOf + chainLength);
+
+                // Convert guessed char to guessed item
+                Item guessedPlayersItem = convertHistoryCharToItem(historyChar);
 
                 return winningChoice.get(guessedPlayersItem);
             }
         }
 
-        // No patterns used by player so far
+        // No patterns used by player found so far
         return Item.getRandom();
     }
 
+    /**
+     * Builds the history of previous rounds depending on player's and computer's moves records.
+     *
+     * @param allPlayersMoves   list of player's moves.
+     * @param allComputersMoves list of computer's moves.
+     * @return <tt>StringBuilder</tt> containing history records encoded as chars (see each
+     * implementation for the details).
+     */
     protected abstract StringBuilder buildHistory(List<Item> allPlayersMoves,
                                                   List<Item> allComputersMoves);
 
-    protected abstract Item guessUpcomingPlayersItem(StringBuilder history,
-                                                     int chainLength,
-                                                     int firstIndexOf);
+    /**
+     * Converts char from history to game {@link Item}.
+     *
+     * @param historyChar char from history chain.
+     * @return {@link Item} for the specified char.
+     */
+    protected abstract Item convertHistoryCharToItem(char historyChar);
 
 }

@@ -13,6 +13,11 @@ public class ScoreKeeper {
 
     private Outcome lastOutcome;
 
+    /**
+     * Tracks next outcome and updates inner statistic counters.
+     *
+     * @param lastOutcome another {@link Outcome} to track.
+     */
     public void trackOutcome(Outcome lastOutcome) {
 
         this.lastOutcome = lastOutcome;

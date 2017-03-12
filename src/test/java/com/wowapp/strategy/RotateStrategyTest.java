@@ -1,8 +1,6 @@
 package com.wowapp.strategy;
 
 import com.wowapp.Item;
-import com.wowapp.strategy.IStrategy;
-import com.wowapp.strategy.RotateStrategy;
 
 import org.junit.Test;
 

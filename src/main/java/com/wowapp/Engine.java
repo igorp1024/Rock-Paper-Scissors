@@ -36,8 +36,8 @@ public class Engine {
         this.strategies = new IStrategy[]{
             new RotateStrategy(),
             new WeightedStrategy(),
-            new PlainPatternStrategy(),
-            new PairPatternStrategy()
+//            new PlainPatternStrategy(),
+//            new PairPatternStrategy()
         };
         this.successStats = new HashMap<>(strategies.length);
     }
