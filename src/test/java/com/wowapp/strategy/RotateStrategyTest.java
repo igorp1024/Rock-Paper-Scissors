@@ -20,64 +20,64 @@ public class RotateStrategyTest {
     @Test
     public void test() {
 
-        List<Item> playedItems = new ArrayList<>();
+        List<Item> allPlayersMoves = new ArrayList<>();
 
-        positiveTest(playedItems);
-        negativeTest(playedItems);
+        positiveTest(allPlayersMoves);
+        negativeTest(allPlayersMoves);
     }
 
     private void negativeTest(List<Item> playedItems) {
         IStrategy strategy = new RotateStrategy();
 
         playedItems.add(Item.ROCK);
-        assertNotEquals(Item.ROCK, strategy.guessTheItem(playedItems));
+        assertNotEquals(Item.ROCK, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.ROCK);
-        assertNotEquals(Item.SCISSORS, strategy.guessTheItem(playedItems));
+        assertNotEquals(Item.SCISSORS, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.SCISSORS);
-        assertNotEquals(Item.SCISSORS, strategy.guessTheItem(playedItems));
+        assertNotEquals(Item.SCISSORS, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.SCISSORS);
-        assertNotEquals(Item.PAPER, strategy.guessTheItem(playedItems));
+        assertNotEquals(Item.PAPER, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.PAPER);
-        assertNotEquals(Item.PAPER, strategy.guessTheItem(playedItems));
+        assertNotEquals(Item.PAPER, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.PAPER);
-        assertNotEquals(Item.ROCK, strategy.guessTheItem(playedItems));
+        assertNotEquals(Item.ROCK, strategy.guessTheItem(playedItems, null));
     }
 
     private void positiveTest(List<Item> playedItems) {
         IStrategy strategy = new RotateStrategy();
         playedItems.add(Item.PAPER);
-        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems));
+        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.PAPER);
-        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems));
+        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.PAPER);
-        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems));
+        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.ROCK);
-        assertEquals(Item.PAPER, strategy.guessTheItem(playedItems));
+        assertEquals(Item.PAPER, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.PAPER);
-        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems));
+        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.SCISSORS);
-        assertEquals(Item.ROCK, strategy.guessTheItem(playedItems));
+        assertEquals(Item.ROCK, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.SCISSORS);
-        assertEquals(Item.ROCK, strategy.guessTheItem(playedItems));
+        assertEquals(Item.ROCK, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.PAPER);
-        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems));
+        assertEquals(Item.SCISSORS, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.ROCK);
-        assertEquals(Item.PAPER, strategy.guessTheItem(playedItems));
+        assertEquals(Item.PAPER, strategy.guessTheItem(playedItems, null));
 
         playedItems.add(Item.SCISSORS);
-        assertEquals(Item.ROCK, strategy.guessTheItem(playedItems));
+        assertEquals(Item.ROCK, strategy.guessTheItem(playedItems, null));
     }
 }

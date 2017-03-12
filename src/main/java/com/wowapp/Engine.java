@@ -3,6 +3,8 @@ package com.wowapp;
 import com.wowapp.strategy.IStrategy;
 import com.wowapp.strategy.RotateStrategy;
 import com.wowapp.strategy.WeightedStrategy;
+import com.wowapp.strategy.pattern.PairPatternStrategy;
+import com.wowapp.strategy.pattern.PlainPatternStrategy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,10 +29,16 @@ public class Engine {
 
     protected int round = 0, lastLosesInARow = 0;
     protected IStrategy currentStrategy;
-    private List<Item> playedItems = new ArrayList<>();
+    private List<Item> allPlayersMoves = new ArrayList<>();
+    private List<Item> allComputersMoves = new ArrayList<>();
 
     public Engine() {
-        this.strategies = new IStrategy[]{new RotateStrategy(), new WeightedStrategy()};
+        this.strategies = new IStrategy[]{
+            new RotateStrategy(),
+            new WeightedStrategy(),
+            new PlainPatternStrategy(),
+            new PairPatternStrategy()
+        };
         this.successStats = new HashMap<>(strategies.length);
     }
 
@@ -42,13 +50,16 @@ public class Engine {
     public Item makeChoice(Item lastPlayersChoice, Outcome lastOutcome) {
 
         if (lastPlayersChoice != null && lastOutcome != null) {
-            playedItems.add(lastPlayersChoice);
-            Item item = pickStrategy(lastOutcome).guessTheItem(playedItems);
+            allPlayersMoves.add(lastPlayersChoice);
+            Item item = pickStrategy(lastOutcome).guessTheItem(allPlayersMoves, allComputersMoves);
+            allComputersMoves.add(item);
             round++;
             return item;
         } else {
             // The very beginning of the game, player's choice from previous round yet not available
-            return Item.ROCK; // "Rock is for rookies" (common mantra in RPS circles)
+            Item item = Item.ROCK;
+            allComputersMoves.add(item);
+            return item; // "Rock is for rookies" (common mantra in RPS circles)
         }
     }
 

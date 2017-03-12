@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface IStrategy {
 
-    Item guessTheItem(List<Item> playedItems);
+    Item guessTheItem(List<Item> allPlayersMoves, List<Item> allComputersMoves);
 }

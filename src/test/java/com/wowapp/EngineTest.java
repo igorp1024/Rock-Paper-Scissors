@@ -59,7 +59,7 @@ public class EngineTest {
     @SuppressWarnings("Convert2Lambda")
     private IStrategy alwaysScissorsStrategy = new IStrategy() {
         @Override
-        public Item guessTheItem(List<Item> playedItems) {
+        public Item guessTheItem(List<Item> ignore1, List<Item> ignore2) {
             return Item.SCISSORS;
         }
     };
@@ -67,7 +67,7 @@ public class EngineTest {
     @SuppressWarnings("Convert2Lambda")
     private IStrategy alwaysPaperStrategy = new IStrategy() {
         @Override
-        public Item guessTheItem(List<Item> playedItems) {
+        public Item guessTheItem(List<Item> ignore1, List<Item> ignore2) {
             return Item.PAPER;
         }
     };

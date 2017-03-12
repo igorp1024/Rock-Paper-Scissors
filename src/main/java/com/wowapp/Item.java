@@ -10,6 +10,8 @@ import java.util.Random;
  * @author ip
  */
 public enum Item {
+
+    // Next item should beat the previous
     ROCK("R"), PAPER("P"), SCISSORS("S");
 
     private String value;
@@ -34,6 +36,10 @@ public enum Item {
 
     public boolean drawFor(Item item) {
         return this.ordinal() == item.ordinal();
+    }
+
+    public String getValue() {
+        return value;
     }
 
     public static Item findValue(String str) {

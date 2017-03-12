@@ -13,9 +13,9 @@ import java.util.List;
 public class RotateStrategy implements IStrategy {
 
     @Override
-    public Item guessTheItem(List<Item> playedItems) {
+    public Item guessTheItem(List<Item> allPlayersMoves, List<Item> allComputersMoves) {
 
-        Item lastPlayersChoice = playedItems.get(playedItems.size() - 1);
+        Item lastPlayersChoice = allPlayersMoves.get(allPlayersMoves.size() - 1);
 
         // Rotate previous player's move by one (to the item that beats it)
         switch (lastPlayersChoice) {

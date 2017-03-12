@@ -12,13 +12,14 @@ import java.util.List;
 public class WeightedStrategy implements IStrategy {
 
     @Override
-    public Item guessTheItem(List<Item> playedItems) {
+    public Item guessTheItem(List<Item> allPlayersMoves, List<Item> allComputersMoves) {
 
         double rockWeight = 0, paperWeigth = 0, scissorsWeight = 0;
 
-        // Not very efficient, but strategy is stateless by design and will recheck the entire state
-        // (aka playedItems) after being changed and becoming effective again
-        for (Item nextItem : playedItems) {
+        // Not very efficient (weights are being recalculated each round), but strategy is
+        // stateless by design and will recheck the entire state (aka playedItems) after being
+        // changed and becoming effective again
+        for (Item nextItem : allPlayersMoves) {
 
             rockWeight *= 0.95;
             paperWeigth *= 0.95;

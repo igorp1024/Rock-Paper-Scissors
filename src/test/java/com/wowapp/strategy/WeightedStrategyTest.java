@@ -30,7 +30,8 @@ public class WeightedStrategyTest {
                                  Arrays.asList(
                                      new Item[]{ROCK, ROCK, PAPER, ROCK, ROCK, ROCK, SCISSORS}
                                  )
-                             )
+                             ),
+                             null
                          ));
 
             // Player plays mostly SCISSORS, let's play ROCK in return
@@ -40,7 +41,8 @@ public class WeightedStrategyTest {
                                  Arrays.asList(
                                      new Item[]{ROCK, SCISSORS, PAPER, SCISSORS, SCISSORS}
                                  )
-                             )
+                             ),
+                             null
                          ));
 
             // Player plays mostly PAPER, let's play SCISSORS in return
@@ -50,7 +52,8 @@ public class WeightedStrategyTest {
                                  Arrays.asList(
                                      new Item[]{ROCK, PAPER, SCISSORS, PAPER, PAPER, ROCK, PAPER}
                                  )
-                             )
+                             ),
+                             null
                          ));
 
         }
